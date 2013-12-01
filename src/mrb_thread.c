@@ -111,7 +111,8 @@ static void*
 mrb_thread_func(void* data) {
   mrb_thread_context* context = (mrb_thread_context*) data;
   mrb_state* mrb = context->mrb;
-  struct RProc* np = mrb_proc_new(mrb, context->proc->body.irep);
+  struct RProc* np = (struct RProc*)mrb_obj_alloc(mrb, MRB_TT_PROC, mrb->proc_class);
+  mrb_proc_copy(np, context->proc);
   context->result = mrb_yield_argv(mrb, mrb_obj_value(np), context->argc, context->argv);
   return NULL;
 }
