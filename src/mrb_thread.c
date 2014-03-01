@@ -279,14 +279,16 @@ static void*
 mrb_thread_func(void* data) {
   mrb_thread_context* context = (mrb_thread_context*) data;
   mrb_thread thread;
+/*
 #ifdef ENABLE_THREAD
   if (FALSE == mrb_vm_attach_thread(context->mrb_caller, &thread)) {
     return NULL;
   }
   mrb_state* mrb = mrb_vm_get_thread_state(thread);
 #else
+*/
   mrb_state* mrb = mrb_open();
-#endif
+/* #endif */
   context->mrb = mrb;
   context->t = thread;
 
@@ -344,11 +346,13 @@ mrb_thread_join(mrb_state* mrb, mrb_value self) {
   int const arena_size = mrb_gc_arena_save(mrb);
   mrb_gc_protect(mrb, context->result);
   mrb_gc_arena_restore(mrb, arena_size);
+/*
 #ifdef ENABLE_THREAD
   mrb_vm_detach_thread(mrb, context->t);
 #else
+*/
   mrb_close(context->mrb);
-#endif
+/* #endif */
   context->mrb = NULL;
   return context->result;
 }
@@ -359,10 +363,12 @@ mrb_mruby_thread_gem_init(mrb_state* mrb) {
   mrb_define_method(mrb, _class_thread, "initialize", mrb_thread_init, ARGS_OPT(1));
   mrb_define_method(mrb, _class_thread, "join", mrb_thread_join, ARGS_NONE());
 
+/*
 #ifdef ENABLE_THREAD
   mrb_vm_thread_api_set(mrb, &thread_api_entry);
   mrb_vm_lock_api_set(mrb, &lock_api_entry);
 #endif
+*/
 }
 
 void
