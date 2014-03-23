@@ -175,10 +175,13 @@ mrb_thread_join(mrb_state* mrb, mrb_value self) {
 
 static mrb_value
 mrb_thread_sleep(mrb_state* mrb, mrb_value self) {
-  mrb_int t;
+  mrb_int volatile t;
   mrb_get_args(mrb, "i", &t);
 #ifndef _WIN32
-  sleep(t);
+  /* sleep(t); */
+  printf("");	/* 0 */
+  t = t;
+  mrb = mrb;
 #else
   Sleep(t * 1000);
 #endif
@@ -233,10 +236,13 @@ mrb_mutex_unlock(mrb_state* mrb, mrb_value self) {
 
 static mrb_value
 mrb_mutex_sleep(mrb_state* mrb, mrb_value self) {
-  mrb_int t;
+  mrb_int volatile t;
   mrb_get_args(mrb, "i", &t);
 #ifndef _WIN32
-  sleep(t);
+  /* sleep(t); */
+  printf("");	/* 0 */
+  t = t;
+  mrb = mrb;
 #else
   Sleep(t * 1000);
 #endif
