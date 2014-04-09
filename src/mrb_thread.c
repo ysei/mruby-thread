@@ -14,6 +14,7 @@
 #endif
 #include <ctype.h>
 #include <unistd.h>
+#include <signal.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
