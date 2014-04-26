@@ -61,9 +61,13 @@ migrate_simple_value(mrb_state *mrb, mrb_value v, mrb_state *mrb2) {
   case MRB_TT_STRING:
     {
       struct RString *str = mrb_str_ptr(v);
-
+/*
       s = str->ptr;
       len = str->len;
+ac8d04fb6c
+*/
+      s = str->as.heap.ptr;
+      len = str->as.heap.len;
       nv = mrb_str_new(mrb2, s, len);
     }
     break;
